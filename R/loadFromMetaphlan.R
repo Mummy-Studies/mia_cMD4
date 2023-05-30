@@ -153,9 +153,9 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
 # Check that metaphlan file contains correct information
 .check_metaphlan <- function(data){
     # Get rowdata columns
-    rowdata_columns <- data[ , 1:2]
+    rowdata_columns <- data[ , 1]
     # Get columns that go to assay
-    assay_columns <- data[ , 3:ncol(data)]
+    assay_columns <- data[ , 2:ncol(data)]
     # Initialize result 
     result <- TRUE
     
@@ -181,7 +181,7 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
     # at specific rank
     tables <- split(table, levels)
     # Different ranks in order
-    ranks <- c("Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+    ranks <- c("Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "SGB")
     # Get the order
     indices <- match(ranks, names(tables))
     # Remove NAs which occurs if rank is not included
@@ -195,7 +195,7 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
 # Output is single character that specifies the rank, e.g, "s" == "Species"
 .get_lowest_taxonomic_level <- function(string){
     # Get indices that specify location of rank prefixes 
-    levels <- gregexpr("([kpcofgs]+)__", string)[[1]]
+    levels <- gregexpr("([kpcofgst]+)__", string)[[1]]
     # Get the location of lowest rank
     lowest_level_ind <- levels[length(levels)]
     # Get the lowest rank that was found
@@ -203,7 +203,7 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
     
     # List all ranks and what prefix they correspond
     ranks <- c(Domain = "d", Kingdom = "k", Phylum = "p", Class = "c",
-               Order = "o", Family = "f", Genus = "g", Species = "s")
+               Order = "o", Family = "f", Genus = "g", Species = "s", SGB = "t")
     # Convert prefix into full rank name
     lowest_level <- names(ranks[ match(lowest_level, ranks) ])
     return(lowest_level)
