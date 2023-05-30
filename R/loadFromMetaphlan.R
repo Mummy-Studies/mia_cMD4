@@ -71,6 +71,7 @@
 NULL
 
 loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
+    
     print("This is the Eurac - Mummy Studies version")
     ################################ Input check ################################
     if(!.is_non_empty_string(file)){
@@ -136,14 +137,14 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
         },
         error = function(condition){
             stop("Error while reading ", file,
-                 "\nPlease check that the file is in merged Metaphlan file format.",
+                 "\nPlease check that the file is in merged Metaphlan file format. OMG",
                  call. = FALSE)
         }
     )
     # Check that file is in right format
     if( .check_metaphlan(table) ){
         stop("Error while reading ", file,
-             "\nPlease check that the file is in merged Metaphlan file format.",
+             "\nPlease check that the file is in merged Metaphlan file format. OMG OMG!",
              call. = FALSE)
     }
     return(table)
