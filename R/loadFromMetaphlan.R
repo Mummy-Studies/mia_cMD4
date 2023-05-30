@@ -181,7 +181,7 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
     # at specific rank
     tables <- split(table, levels)
     # Different ranks in order
-    ranks <- c("Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+    ranks <- c("Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "SGB")
     # Get the order
     indices <- match(ranks, names(tables))
     # Remove NAs which occurs if rank is not included
@@ -195,7 +195,7 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
 # Output is single character that specifies the rank, e.g, "s" == "Species"
 .get_lowest_taxonomic_level <- function(string){
     # Get indices that specify location of rank prefixes 
-    levels <- gregexpr("([kpcofgs]+)__", string)[[1]]
+    levels <- gregexpr("([kpcofgst]+)__", string)[[1]]
     # Get the location of lowest rank
     lowest_level_ind <- levels[length(levels)]
     # Get the lowest rank that was found
@@ -203,7 +203,7 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
     
     # List all ranks and what prefix they correspond
     ranks <- c(Domain = "d", Kingdom = "k", Phylum = "p", Class = "c",
-               Order = "o", Family = "f", Genus = "g", Species = "s")
+               Order = "o", Family = "f", Genus = "g", Species = "s", SGB = "t")
     # Convert prefix into full rank name
     lowest_level <- names(ranks[ match(lowest_level, ranks) ])
     return(lowest_level)
@@ -219,13 +219,13 @@ loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
              call. = FALSE)
     }
     # Get those columns that belong to rowData
-    rowdata <- table[, 1:2, drop = FALSE]
+    rowdata <- table[, 1:1, drop = FALSE]
     # Get those columns that belong to assay
-    assay <- table[, 3:ncol(table), drop = FALSE]
+    assay <- table[, 2:ncol(table), drop = FALSE]
     # Parse taxonomic levels
-    taxonomy <- .parse_taxonomy(rowdata[ , 1, drop = FALSE], sep = "\\|", column_name = "clade_name", ...)
+    #taxonomy <- .parse_taxonomy(rowdata[ , 1, drop = FALSE], sep = "\\|", column_name = "clade_name", ...)
     # Add parsed taxonomy level information to rowdata
-    rowdata <- cbind(taxonomy, rowdata)
+    rowdata <- rowdata)
     
     # Create assays list and add assay with specific name
     assays <- S4Vectors::SimpleList()
