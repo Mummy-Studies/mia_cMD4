@@ -71,6 +71,7 @@
 NULL
 
 loadFromMetaphlan <- function(file, sample_meta = NULL, phy_tree = NULL, ...){
+    print("This is the Eurac - Mummy Studies version")
     ################################ Input check ################################
     if(!.is_non_empty_string(file)){
         stop("'file' must be a single character value.",
